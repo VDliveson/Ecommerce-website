@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block titleblock %}
+Home
+{% endblock  %}
+
+{% block bodyblock  %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"> 
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#" style="font-family: 'Bebas Neue', cursive; margin-left: 20px;">Shop-it</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="#">Store</a>
+      </div>
+      <div class="navbar-nav ms-auto">
+        {% comment %} {% if user.is_authenticated %}{% endif %} {% endcomment %}
+        <a class="nav-link" href="#">Login</a>
+        <a class="nav-link" href="#">Signup</a>
+      </div>
+        <!-- <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form> -->
+    </div>
+</nav>
+
+
+<div class="container-fluid">
+    <div class="row">
+    {% for product in products %}
+    <div class="card mx-auto" style="width: 18rem;">
+        <img src="{{product.image.url}}" class="card-img-top" alt="image">
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text">₹ {{product.price}}</p>
+          <a href="/" class="btn btn-primary border border-5 border-info">Add to cart</a>
+        </div>
+      </div>
+      {% endfor %}
+</div>
+</div>
+
+
+
+
+{% endblock  %}
