@@ -1,51 +1,105 @@
 {% extends 'base.html' %}
+{% load cart %}
 
 {% block titleblock %}
 Home
 {% endblock  %}
 
 {% block bodyblock  %}
+<style>
+  .list-group-item:hover {
+    background: red;
+  }
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="#" style="font-family: 'Bebas Neue', cursive; margin-left: 20px;">Shop-it</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">Store</a>
-      </div>
-      <div class="navbar-nav ms-auto">
-        {% comment %} {% if user.is_authenticated %}{% endif %} {% endcomment %}
-        <a class="nav-link" href="#">Login</a>
-        <a class="nav-link" href="#">Signup</a>
-      </div>
-        <!-- <form class="d-flex">
+  <a class="navbar-brand" href="#" style="font-family: 'Bebas Neue', cursive; margin-left: 20px;">Shop-it</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-link active" aria-current="page" href="#">Store</a>
+    </div>
+    <div class="navbar-nav ms-auto">
+      {% if request.session.customer %}
+       <a class="nav-link" href="">Cart</a>
+      <a class="nav-link" href="">Orders</a>
+      <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+      {% else %}
+      <a class="nav-link" href="login">Login</a>
+      <a class="nav-link" href="signup">Signup</a>
+      {% endif %}
+    </div>
+    <!-- <form class="d-flex">
           <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form> -->
-    </div>
+  </div>
 </nav>
 
 
-<div class="container-fluid">
-    <div class="row">
-    {% for product in products %}
-    <div class="card mx-auto" style="width: 18rem;">
-        <img src="{{product.image.url}}" class="card-img-top" alt="image">
-        <div class="card-body">
-          <h5 class="card-title">{{product.name}}</h5>
-          <p class="card-text">₹ {{product.price}}</p>
-          <a href="/" class="btn btn-primary border border-5 border-info">Add to cart</a>
+<div class="container-fluid mt-3">
+  <div class="row">
+
+    <!-- filter -->
+    <div class="col-lg-3 mx-auto">
+      <li class="list-group-item active"><a href="/" style="color: inherit; text-decoration: none">All</a></li>
+      <ul class="list-group">
+        {% for category in categories %}
+        <li class="list-group-item "><a href="/?category={{category.id}}"
+            style="color: inherit; text-decoration: none">{{category.name}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- all products -->
+    <div id="products" class="col-lg-9 mx-auto">
+      <div class="row mx-auto">
+        {% for product in products %}
+        <div class="card mx-auto mb-3" style="width: 18rem;" id="{{product.id}}">
+          <img src="{{product.image.url}}" class="card-img-top" alt="image">
+          <div class="card-body">
+            <h5 class="card-title">{{product.name}}</h5>
+            <p class="card-text">₹ {{product.price}}</p>
+          </div>
+
+          <div class="card-footer p-0 row no-gutters">
+
+            {% if request.session.cart and product|is_in_cart:request.session.cart %}
+            <div class="row no-gutters">
+             <form action="/#{{product.id}}" class="col-2 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{product.id}}'>
+								<input hidden type="text" name='remove' value='True'>
+								<input type="submit" value=" - " class="btn btn-block btn-secondary border-right">
+							</form>
+
+              <div class="text-center col">{{product|cart_quantity:request.session.cart}} in Cart</div>
+
+							<form action="/#{{product.id}}" class="col-2 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{product.id}}'>
+								<input type="submit" value=" + " class="btn btn-block btn-secondary border-left">
+							</form>
+            </div>
+              {% else %}
+              <form method="POST" action="/#{{product.id}}">
+                {% csrf_token %}
+                <input hidden type="text" name="product" value="{{product.id}}">
+                <input type="submit" class="btn btn-primary btn-block" style="text-align:center;" value="Add to Cart">
+              </form>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
         </div>
       </div>
-      {% endfor %}
-</div>
-</div>
+    </div>
 
 
 
-
-{% endblock  %}
+    {% endblock  %}

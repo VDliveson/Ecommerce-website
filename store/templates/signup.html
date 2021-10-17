@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block bodyblock %}
+<style>
+.view{
+  display: none !important;
+}
+</style>
+<link rel="stylesheet" href="{% static 'css/signup.css' %}">
+
+
+  {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger">{{ message }}
+    <button type="button" class="btn btn-secondary" onclick="hide()" data-bs-dismiss="modal">Close</button>
+    </div>
+    {% endfor %}
+{% endif %}
+
+
+<a class="btn btn-primary home" href="{% url 'home' %}"><i class="bi bi-house"></i></a>
+
+<form id="login-box" action="/signup" method="POST">
+  {% csrf_token %}
+
+  <div class="left">
+    <h1>Sign up</h1>
+    
+    <input type="text" name="username" placeholder="Username" />
+    <input type="email" name="email" placeholder="E-mail" />
+    <input type="password" name="password" placeholder="Password" />
+    <input type="password" name="password2" placeholder="Retype password" />
+    
+    <input type="submit" name="signup_submit" value="Sign me up" />
+  </div>
+  
+  <div class="right">
+    <span class="loginwith">Sign up with<br />social network</span>
+    
+    <!-- <button class="social-signin facebook">Log in with facebook</button> -->
+    <!-- <button class="social-signin twitter">Log in with Twitter</button> -->
+    <button class="social-signin google" >Sign up with <img src="https://cdn.iconscout.com/icon/free/png-256/google-2690379-2232882.png" height="20px" width="20px" alt="Google"></button>
+  </div>
+  <div class="or">OR</div>
+</form>
+
+<script>
+
+function hide() {
+  var x = document.getElementsByClassName("alert");
+  x.className+="view";
+}
+
+</script>
+
+{% endblock  %}

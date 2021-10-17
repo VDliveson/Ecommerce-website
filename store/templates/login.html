@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block bodyblock %}
+
+{% if messages %}
+<ul class="messages" style="list-style-type: none;">
+    {% for message in messages %}
+    <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible fade show"{% endif %} role="alert">
+    {{ message }}
+    {% comment %} <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+    </div> {% endcomment %}
+    {% endfor %}
+    
+</ul>
+{% endif %}
+
+<a class="btn btn-primary home" href="{% url 'home' %}"><i class="bi bi-house"></i></a>
+
+<link rel="stylesheet" href="{% static 'css/login.css'%}">
+<div id="large-header" class="large-header">
+  <canvas id="demo-canvas"></canvas>
+</div> 
+
+
+<div class="loginpanel">
+<form method="POST" action="/login">
+{% csrf_token %}
+  <div class="txt">
+    <input id="user" name="email" type="email" placeholder="Email" />
+    <label for="user" class="entypo-user"></label>
+  </div>
+  <div class="txt">
+    <input id="pwd"  name ="password" type="password" placeholder="Password" />
+    <label for="pwd" class="entypo-lock"></label>
+  </div>
+  <div class="buttons">
+    <input type="submit" value="Login" />
+    </form>
+  </div>
+  
+  <div class="hr">
+    <div></div>
+    <div>OR</div>
+    <div></div>
+  </div>
+  
+  <div class="social">
+    <a href="javascript:void(0)" class="facebook"></a>
+    <a href="javascript:void(0)" class="twitter"></a>
+    <a href="javascript:void(0)" class="googleplus"></a>
+  </div>
+</div>
+
+
+<script src="{% static 'js/login.js' %}">
+
+
+{% endblock %}
