@@ -10,6 +10,10 @@ Home
   .list-group-item:hover {
     background: red;
   }
+
+  .card:hover {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +30,16 @@ Home
     </div>
     <div class="navbar-nav ms-auto">
       {% if request.session.customer %}
-       <a class="nav-link" href="">Cart</a>
+      <a class="nav-link" href="{% url 'cart' %}"><i class="bi bi-cart4"></i>
+        {% if request.session.cart %}
+        {% if request.session.cart|cart_total%}
+        <span class="badge"
+          style="border-radius:10px;background-color: red;line-height: 0.5;text-align: center;vertical-align: middle;margin-left:2px">
+          {{request.session.cart|cart_total}}
+        </span>
+        {% endif %}
+        {% endif %}
+      </a>
       <a class="nav-link" href="">Orders</a>
       <a class="nav-link" href="{% url 'logout' %}">Logout</a>
       {% else %}
@@ -71,35 +84,35 @@ Home
 
             {% if request.session.cart and product|is_in_cart:request.session.cart %}
             <div class="row no-gutters">
-             <form action="/#{{product.id}}" class="col-2 " method="post">
-								{% csrf_token %}
-								<input hidden type="text" name='product' value='{{product.id}}'>
-								<input hidden type="text" name='remove' value='True'>
-								<input type="submit" value=" - " class="btn btn-block btn-secondary border-right">
-							</form>
+              <form action="/#{{product.id}}" class="col-2 " method="post">
+                {% csrf_token %}
+                <input hidden type="text" name='product' value='{{product.id}}'>
+                <input hidden type="text" name='remove' value='True'>
+                <input type="submit" value=" - " class="btn btn-block btn-secondary border-right">
+              </form>
 
               <div class="text-center col">{{product|cart_quantity:request.session.cart}} in Cart</div>
 
-							<form action="/#{{product.id}}" class="col-2 " method="post">
-								{% csrf_token %}
-								<input hidden type="text" name='product' value='{{product.id}}'>
-								<input type="submit" value=" + " class="btn btn-block btn-secondary border-left">
-							</form>
-            </div>
-              {% else %}
-              <form method="POST" action="/#{{product.id}}">
+              <form action="/#{{product.id}}" class="col-2 " method="post">
                 {% csrf_token %}
-                <input hidden type="text" name="product" value="{{product.id}}">
-                <input type="submit" class="btn btn-primary btn-block" style="text-align:center;" value="Add to Cart">
+                <input hidden type="text" name='product' value='{{product.id}}'>
+                <input type="submit" value=" + " class="btn btn-block btn-secondary border-left">
               </form>
-              {% endif %}
             </div>
+            {% else %}
+            <form method="POST" action="/#{{product.id}}">
+              {% csrf_token %}
+              <input hidden type="text" name="product" value="{{product.id}}">
+              <input type="submit" class="btn btn-primary btn-block" style="text-align:center;" value="Add to Cart">
+            </form>
+            {% endif %}
           </div>
-          {% endfor %}
         </div>
+        {% endfor %}
       </div>
     </div>
+  </div>
 
 
 
-    {% endblock  %}
+  {% endblock  %}

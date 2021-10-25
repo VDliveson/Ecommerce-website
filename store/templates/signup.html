@@ -20,7 +20,7 @@
 
 <a class="btn btn-primary home" href="{% url 'home' %}"><i class="bi bi-house"></i></a>
 
-<form id="login-box" action="/signup" method="POST">
+<form class="form-inline" id="login-box" action="/signup" method="POST">
   {% csrf_token %}
 
   <div class="left">
@@ -30,7 +30,8 @@
     <input type="email" name="email" placeholder="E-mail" />
     <input type="password" name="password" placeholder="Password" />
     <input type="password" name="password2" placeholder="Retype password" />
-    
+    <input type="text" name="address" placeholder="Address" required/>
+      <input type="text" class="form-control" name="number" placeholder="Phone Number (+91)" required/>
     <input type="submit" name="signup_submit" value="Sign me up" />
   </div>
   
@@ -43,6 +44,7 @@
   </div>
   <div class="or">OR</div>
 </form>
+
 
 <script>
 

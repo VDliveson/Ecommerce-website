@@ -12,4 +12,5 @@ class AdminCategory(admin.ModelAdmin):
 admin.site.register(Customer)
 admin.site.register(Product,AdminProduct)
 admin.site.register(Category,AdminCategory)
+admin.site.register(Order)
 
