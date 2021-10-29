@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout',login.logout,name='logout'),
     path('cart',cart.Cart.as_view(),name='cart'),
     path('checkout',checkout.Checkout.as_view(),name='checkout'),
+    path('orders',orders.OrderView.as_view(),name='orders'),
     path('clear_session', home.delete_session)
     
 ]

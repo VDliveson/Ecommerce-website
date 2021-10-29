@@ -10,8 +10,13 @@ class Order(models.Model):
     price=models.IntegerField()
     full_address = models.CharField(max_length=512,blank=True,null=True)
     phone=models.CharField(max_length=10,blank=True,null=True)
+    status=models.BooleanField(default=False)
     date=models.DateField(default=datetime.datetime.today())
     
     def placeOrder(self):
         self.save()
     
+    
+    @staticmethod
+    def get_orders_by_customer(customer_id):
+        return Order.objects.filter(customer=customer_id).order_by('date')

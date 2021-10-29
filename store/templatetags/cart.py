@@ -21,9 +21,9 @@ def cart_quantity(product,cart):
 @register.filter(name='cart_total')
 def cart_total(cart):
     total_products=0
-    keys=cart.keys()
-    for id in keys:
-        total_products+=1
+    values=cart.values()
+    for id in values:
+        total_products+=id
     return total_products
 
 @register.filter(name='price_total')

@@ -6,7 +6,8 @@ from store.models import Customer,Product
 
 class Cart(View):
     def get(self, request):
-        ids=request.session.get('cart').keys()
-        products = Product.get_products_by_id(ids)
-        print(products)
-        return render(request, 'cart.html',{'products':products})
+        if(request.session.get('customer')):
+            ids=request.session.get('cart').keys()
+            products = Product.get_products_by_id(ids)
+            print(products)
+            return render(request, 'cart.html',{'products':products})

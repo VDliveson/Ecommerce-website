@@ -8,6 +8,7 @@
 <link rel="stylesheet" href={% static 'css/cart.css' %}
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&display=swap" rel="stylesheet"> 
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="#" style="font-family: 'Bebas Neue', cursive; margin-left: 20px;">Shop-it</a>
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
@@ -16,19 +17,21 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Store</a>
+      <a class="nav-link active" aria-current="page" href="#">Store</a>
     </div>
     <div class="navbar-nav ms-auto">
       {% if request.session.customer %}
-       <a class="nav-link" href="{% url 'cart' %}"><i class="bi bi-cart4"></i>
-       {% if request.session.cart %} 
-      {% if request.session.cart|cart_total%}
-      <span class="badge" style="border-radius:10px;background-color: red;line-height: 0.5;text-align: center;vertical-align: middle;margin-left:2px">{{request.session.cart|cart_total}}
-      </span>
-      {% endif %}
-      {% endif %}
-       </a>
-      <a class="nav-link" href="">Orders</a>
+      <a class="nav-link" href="{% url 'cart' %}"><i class="bi bi-cart4"></i>
+        {% if request.session.cart %}
+        {% if request.session.cart|cart_total%}
+        <span class="badge"
+          style="border-radius:10px;background-color: red;line-height: 0.5;text-align: center;vertical-align: middle;margin-left:2px">
+          {{request.session.cart|cart_total}}
+        </span>
+        {% endif %}
+        {% endif %}
+      </a>
+      <a class="nav-link" href="{% url 'orders'%}">Orders</a>
       <a class="nav-link" href="{% url 'logout' %}">Logout</a>
       {% else %}
       <a class="nav-link" href="login">Login</a>
@@ -41,6 +44,7 @@
         </form> -->
   </div>
 </nav>
+
 
 <div class="heading">
     <div class="head border-rounded p-4 mt-4">
