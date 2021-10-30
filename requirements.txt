@@ -7,7 +7,6 @@ certifi==2021.5.30
 cffi==1.14.6
 cfgv==3.3.0
 charset-normalizer==2.0.4
-colorama @ file:///home/conda/feedstock_root/build_artifacts/colorama_1602866480661/work
 cryptography==3.4.8
 defusedxml==0.7.1
 Deprecated==1.2.13
