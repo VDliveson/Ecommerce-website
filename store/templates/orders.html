@@ -28,7 +28,7 @@ Orders
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-link active" aria-current="page" href="#">Store</a>
+      <a class="nav-link active" aria-current="page" href="{%url 'home' %}">Store</a>
     </div>
     <div class="navbar-nav ms-auto">
       {% if request.session.customer %}
@@ -56,7 +56,7 @@ Orders
   </div>
 </nav>
 
-
+{% if orders|is_not_empty_order %}
 
 <div class="heading">
     <div class="head border-rounded p-4 mt-4">
@@ -78,7 +78,7 @@ Orders
     </tr>
   </thead>
   <tbody>
-    {%for order in orders%}
+    {% for order in orders %}
     <tr>
       <td>{{ forloop.counter }}</td>
       <td class="item">
@@ -107,5 +107,13 @@ Orders
   </tfoot> {% endcomment %}
 </table> 
 
+
+  {%else %}
+  <div class="heading">
+    <div class="head border-rounded p-4 mt-4" style="margin:auto;">
+    <h1> No order found.Pls add items to cart to continue.</h1> 
+    </div>
+</div>
+{% endif %}
 
 {% endblock  %}

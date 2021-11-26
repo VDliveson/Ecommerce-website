@@ -6,6 +6,12 @@ register = template.Library()
 def total_price_order(price,quantity):
     return price*quantity
 
+@register.filter(name='is_not_empty_order')
+def is_not_empty_order(orders):
+    for order in orders:
+        if (order):
+            return True
+    return False
 
 # @register.filter(name='total_order')
 # def total_order(orders):
