@@ -34,6 +34,8 @@ class Signup(View):
         else:
             customer.password = make_password(password)
             customer.register()
+            customer = Customer.get_Customer(email)
+            request.session['customer'] = customer.id
             return redirect('home')
 
 
