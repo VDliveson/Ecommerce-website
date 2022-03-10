@@ -32,4 +32,4 @@ admin.site.register(Customer,AdminCustomer)
 admin.site.register(Product,AdminProduct)
 admin.site.register(Category,AdminCategory)
 admin.site.register(Order)
-
+admin.site.register(Vendor)
